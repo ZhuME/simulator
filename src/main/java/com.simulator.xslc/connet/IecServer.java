@@ -1,8 +1,8 @@
 package com.simulator.xslc.connet;
 
+import com.simulator.xslc.connet.intilizer.IecChannelIntilizer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -47,6 +47,7 @@ public class IecServer {
                 .childOption(ChannelOption.ALLOCATOR,
                         PooledByteBufAllocator.DEFAULT)
                 .childHandler(new IecChannelIntilizer());
+        serverBootstrap.bind();
     }
 
 }
