@@ -1,8 +1,12 @@
 package com.simulator.xslc.connet;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.log4j.Logger;
 
 /**
@@ -32,6 +36,17 @@ public class IecServer {
     }
     public void start(){
         //todo
+        serverBootstrap.group(bossGroup,workGroup)
+                .channel(NioServerSocketChannel.class)
+                .option(ChannelOption.TCP_NODELAY, true)
+                .option(ChannelOption.SO_REUSEADDR, true)
+                .childOption(ChannelOption.SO_KEEPALIVE, false)
+                .option(ChannelOption.SO_BACKLOG, 1024)
+                .option(ChannelOption.SO_RCVBUF, 65535)
+                .option(ChannelOption.SO_SNDBUF, 65535)
+                .childOption(ChannelOption.ALLOCATOR,
+                        PooledByteBufAllocator.DEFAULT)
+                .childHandler(new IecChannelIntilizer());
     }
 
 }
